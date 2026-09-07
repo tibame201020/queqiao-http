@@ -1,0 +1,152 @@
+{
+  "name": "@tibame201020/queqiao-http",
+  "version": "0.1.0",
+  "description": "Bounded outbound HTTP extension for Queqiao",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm test && npm run build",
+    "prepack": "npm run check"
+  },
+  "engines": {
+    "node": ">=22.19 <25"
+  },
+  "dependencies": {
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@tibame201020/queqiao": "0.9.7",
+    "@types/node": "^24.10.0",
+    "typescript": "7.0.2",
+    "vitest": "4.1.10"
+  },
+  "queqiao": {
+    "apiVersion": 1,
+    "module": "./dist/index.js",
+    "manifest": {
+      "id": "dev.queqiao.http",
+      "version": "0.1.0",
+      "displayName": "Queqiao HTTP",
+      "host": {
+        "kind": "worker"
+      },
+      "ordering": {
+        "requires": [],
+        "before": [],
+        "after": []
+      },
+      "runtime": {
+        "processes": {
+          "allow": []
+        },
+        "outboundHttp": {
+          "allowOrigins": [
+            "http://127.0.0.1:9889",
+            "http://localhost:9889"
+          ]
+        }
+      },
+      "contributions": [
+        {
+          "operation": "register",
+          "tool": "http_request",
+          "visibility": "public",
+          "title": "HTTP request",
+          "description": "Send one bounded HTTP request to an origin explicitly granted by this extension manifest.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "workspaceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "url": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              "method": {
+                "default": "GET",
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE",
+                  "HEAD"
+                ]
+              },
+              "headers": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "maxLength": 8192
+                }
+              },
+              "body": {
+                "type": "string",
+                "maxLength": 1048576
+              },
+              "json": {},
+              "timeoutMs": {
+                "default": 30000,
+                "type": "integer",
+                "minimum": 100,
+                "maximum": 120000
+              }
+            },
+            "required": [
+              "workspaceId",
+              "url"
+            ]
+          },
+          "requiredCapabilities": [],
+          "risk": "execute",
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": true,
+            "openWorldHint": true,
+            "idempotentHint": false
+          }
+        }
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tibame201020/queqiao-http.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tibame201020/queqiao-http/issues"
+  },
+  "homepage": "https://github.com/tibame201020/queqiao-http#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT"
+}
