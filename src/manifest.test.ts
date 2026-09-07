@@ -25,5 +25,10 @@ describe("package manifest contract", () => {
     expect(manifest.contributions[0].inputSchema).toEqual(
       z.toJSONSchema(HTTP_REQUEST_DEFINITION.inputSchema, { io: "input" }),
     );
+    expect(pkg.files).toEqual(expect.arrayContaining(["README.md", "README.zh-TW.md"]));
+    const english = await readFile(new URL("../README.md", import.meta.url), "utf8");
+    const traditionalChinese = await readFile(new URL("../README.zh-TW.md", import.meta.url), "utf8");
+    expect(english).toContain("[繁體中文]");
+    expect(traditionalChinese).toContain("[English]");
   });
 });
