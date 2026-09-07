@@ -1,6 +1,6 @@
 {
   "name": "@tibame201020/queqiao-http",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Bounded outbound HTTP extension for Queqiao",
   "type": "module",
   "main": "./dist/index.js",
@@ -42,7 +42,7 @@
     "module": "./dist/index.js",
     "manifest": {
       "id": "dev.queqiao.http",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "Queqiao HTTP",
       "host": {
         "kind": "worker"
