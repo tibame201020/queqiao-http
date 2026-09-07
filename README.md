@@ -42,3 +42,7 @@ npm run typecheck
 npm run build
 npm run check
 ```
+
+## Publishing
+
+GitHub Releases publish matching `v<version>` tags to npm through OIDC trusted publishing. See [`docs/releasing.md`](docs/releasing.md) for the one-time bootstrap and trusted-publisher setup.
